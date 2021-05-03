@@ -1,0 +1,46 @@
+{% extends 'myapp/base.html' %}
+
+<!-- Start your project here-->
+
+<!-- End your project here-->
+{% block content %}
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h2 class="display-4">{{ request.site.siteconfig.top_title }}</h2>
+    <p class="lead">{{ request.site.siteconfig.top_subtitle }}</p>
+  </div>
+</div>
+<div class="row">
+  {% for item  in post_list %}
+  <div class="card col-md-4">
+    <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+      {% if item.thumbnail %}
+      <img
+        src="{{ item.thumbnail.url }}"
+        class="img-fluid"
+      />
+      {% else %}
+      <img
+        src="https://mdbootstrap.com/img/new/standard/nature/111.jpg"
+        class="img-fluid"
+      />
+      {% endif %}
+      <a href="{% url 'myapp:post_detail' item.id %}">
+        <div
+          class="mask"
+          style="background-color: rgba(251, 251, 251, 0.15)"
+        ></div>
+      </a>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{item.title}}<small>{{item.author}}</small></h5>
+      <p>{{item.category}}</p>
+      <p class="card-text">
+        {{item.content|safe|truncatechars_html:12}}
+      </p>
+      <a href="{% url 'myapp:post_detail' item.id %}" class="btn btn-primary">もっと読む</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
